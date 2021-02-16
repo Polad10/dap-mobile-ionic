@@ -1,0 +1,8 @@
+{
+  "name": "DAP_Mobile_Ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "bc16b344"
+}
