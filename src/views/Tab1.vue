@@ -5,7 +5,12 @@
         <ion-title>Appointments</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
+    <ion-content>
+      <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
+        <ion-fab-button>
+           <ion-icon :icon="addOutline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
       <ion-list>
         <ion-item-group v-for="item in items" :key="item">
           <ion-list-header color="light">
@@ -16,11 +21,28 @@
             <ion-avatar slot="start">
               <img src="../images/icon.png">
             </ion-avatar>
-            <ion-label>
+            <ion-label slot="start">
               <h2>Polad 10</h2>
               <h3>Diagnosis........</h3>
               <p>Actions, asda las das als</p>
             </ion-label>
+            <ion-chip color="success" disabled="true" outline="true">
+              <ion-icon :icon="checkmarkCircleOutline"></ion-icon>
+              <ion-label>Finished</ion-label>
+            </ion-chip>
+            <ion-fab horizontal="end">
+              <ion-fab-button size="small" color="tertiary">
+                <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-list side="start">
+                <ion-fab-button color="success">
+                  <ion-icon :icon="checkmarkOutline"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button color="danger">
+                  <ion-icon :icon="closeOutline"></ion-icon>
+                </ion-fab-button>
+              </ion-fab-list>
+            </ion-fab>
           </ion-item>
         </ion-item-group>
       </ion-list>
@@ -48,8 +70,20 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonPage
+  IonPage,
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon
  } from '@ionic/vue';
+
+import { 
+  ellipsisHorizontalOutline,
+  checkmarkOutline,
+  closeOutline,
+  checkmarkCircleOutline,
+  addOutline
+ } from 'ionicons/icons'
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
@@ -60,7 +94,11 @@ export default defineComponent({
     IonItem,
     IonLabel,
     IonList,
-    IonPage
+    IonPage,
+    IonFab,
+    IonFabButton,
+    IonFabList,
+    IonIcon
   },
   setup() {
     const isDisabled = ref(false);
@@ -93,7 +131,12 @@ export default defineComponent({
     return {
       isDisabled,
       loadData,
-      items
+      items,
+      ellipsisHorizontalOutline,
+      checkmarkOutline,
+      closeOutline,
+      checkmarkCircleOutline,
+      addOutline
     }
   }
 });
