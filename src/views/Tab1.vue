@@ -7,12 +7,12 @@
     </ion-header>
     <ion-content>
       <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
-        <ion-fab-button>
+        <ion-fab-button color="tertiary">
            <ion-icon :icon="addOutline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
       <ion-list>
-        <ion-item-group v-for="item in items" :key="item">
+        <ion-item-group v-for="item in [1,2]" :key="item">
           <ion-list-header color="light">
             <h5>20-10-2021</h5>
           </ion-list-header>
@@ -31,7 +31,7 @@
               <ion-label>Finished</ion-label>
             </ion-chip>
             <ion-fab horizontal="end">
-              <ion-fab-button size="small" color="tertiary">
+              <ion-fab-button size="small" color="primary">
                 <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
               </ion-fab-button>
               <ion-fab-list side="start">
