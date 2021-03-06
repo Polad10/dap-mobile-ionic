@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content>
       <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
-        <ion-fab-button color="tertiary">
+        <ion-fab-button color="tertiary" @click="openNewAppointment">
            <ion-icon :icon="addOutline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -17,21 +17,14 @@
             <h5>20-10-2021</h5>
           </ion-list-header>
           <ion-item v-for="i in [1,2,3]" :key="i">
-            <ion-label slot="start" position="fixed" color="medium">21:21</ion-label>
-            <ion-avatar slot="start">
-              <img src="../images/icon.png">
-            </ion-avatar>
-            <ion-label slot="start">
+            <ion-label color="medium" position="fixed">21:21</ion-label>
+            <ion-label class="ion-text-wrap ion-margin-end">
               <h2>Polad 10</h2>
-              <h3>Diagnosis........</h3>
+              <h3>Diagnosis alkdalkdlaskd adasdmasldmalskdlaskdlaklsjdalksjdlaksjdlkasj</h3>
               <p>Actions, asda las das als</p>
             </ion-label>
-            <ion-chip color="success" disabled="true" outline="true">
-              <ion-icon :icon="checkmarkCircleOutline"></ion-icon>
-              <ion-label>Finished</ion-label>
-            </ion-chip>
             <ion-fab horizontal="end">
-              <ion-fab-button size="small" color="primary">
+              <ion-fab-button size="small" color="light">
                 <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
               </ion-fab-button>
               <ion-fab-list side="start">
@@ -74,7 +67,8 @@ import {
   IonFab,
   IonFabButton,
   IonFabList,
-  IonIcon
+  IonIcon,
+  modalController
  } from '@ionic/vue';
 
 import { 
@@ -84,7 +78,9 @@ import {
   checkmarkCircleOutline,
   addOutline
  } from 'ionicons/icons'
+ 
 import { defineComponent, ref } from 'vue';
+import NewAppointment from './modals/new_appointment.vue'
 
 export default defineComponent({
   components: {
@@ -137,6 +133,30 @@ export default defineComponent({
       closeOutline,
       checkmarkCircleOutline,
       addOutline
+    }
+  },
+  methods: {
+    async openNewAppointment() {
+      const modal = await modalController.create({
+        component: NewAppointment,
+        componentProps: {
+          cancelCallback: () => this.closeModal(),
+          addAppointmentCallback: () => this.addAppointment()
+        }
+      });
+
+      return modal.present();
+    },
+
+    async closeModal()
+    {
+      modalController.dismiss();
+    },
+
+    async addAppointment()
+    {
+      // to do
+      this.closeModal();
     }
   }
 });
