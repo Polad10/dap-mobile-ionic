@@ -63,6 +63,7 @@ export default defineComponent({
       const modal = await modalController.create({
         component: Patients,
         componentProps: {
+          title: 'Select Patient',
           callback: (name) => this.getSelectedPatient(name)
         }
       });
