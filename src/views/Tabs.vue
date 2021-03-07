@@ -2,12 +2,12 @@
   <ion-page>
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/tabs/appointments">
+        <ion-tab-button tab="appointments" href="/tabs/appointments">
           <ion-icon :icon="readerOutline" />
           <ion-label>Appointments</ion-label>
         </ion-tab-button>
           
-        <ion-tab-button tab="tab2" href="/tabs/patients">
+        <ion-tab-button tab="patients" href="/tabs/patients">
           <ion-icon :icon="peopleOutline" />
           <ion-label>Patients</ion-label>
         </ion-tab-button>

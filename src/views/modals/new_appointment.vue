@@ -43,7 +43,7 @@
 <script>
 import { IonContent, IonHeader, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import SelectPatient from './select_patient.vue'
+import Patients from '../patients.vue'
 import SelectTreatment from './select_treatment.vue'
 
 export default defineComponent({
@@ -61,7 +61,7 @@ export default defineComponent({
   methods: {
     async openSelectPatient() {
       const modal = await modalController.create({
-        component: SelectPatient,
+        component: Patients,
         componentProps: {
           callback: (name) => this.getSelectedPatient(name)
         }

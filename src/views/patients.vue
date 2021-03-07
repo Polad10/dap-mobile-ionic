@@ -2,27 +2,71 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 2</ion-title>
+        <ion-title>Select Patient</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 2</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      
-      <ExploreContainer name="Tab 2 page" />
+    <ion-content>
+      <ion-searchbar ref="search" type="search" placeholder="Enter patient name..." @ionInput="handleSearch"></ion-searchbar>
+      <ion-list>
+        <ion-item detail="true" button v-for="p in patients" :key="p" @click="handlePatientSelect(p.firstName + ' ' + p.lastName)">
+          <ion-avatar slot="start">
+            <img src="../images/icon.png">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{p.firstName}} {{p.lastName}}</h2>
+          </ion-label>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
-<script lang="ts">
+<script>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import { defineComponent } from 'vue';
 
-export default  {
-  name: 'Tab2',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-}
+export default defineComponent({
+  name: 'Patients',
+  props: {
+    callback: {type: Function, default: null}
+  },
+  components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  data() {
+    return {
+      patients: [
+        {firstName: 'Polad', lastName: 'Mammadov'},
+        {firstName: 'Faxri', lastName: 'Imanov'},
+        {firstName: 'Fuad', lastName: 'Imanov'},
+        {firstName: 'Amelia', lastName: 'Kezia'},
+        {firstName: 'Emin', lastName: 'Mammadov'},
+        {firstName: 'Farid', lastName: 'Mammadov'},
+      ]
+    }
+  },
+  ionViewDidEnter() {
+    this.setSearchFocus();
+  },
+  mounted() {
+    setTimeout(() => {
+      this.setSearchFocus();
+    }, 400)
+  },
+  methods: {
+    async handleSearch(event) {
+      const searchName = event.target.value;
+      // to do
+    },
+
+    async handlePatientSelect(name) {
+      if(this.callback)
+      {
+        this.callback(name);
+      }
+    },
+
+    async setSearchFocus() {
+      this.$refs.search.setFocus();
+    }
+  }
+});
 </script>
