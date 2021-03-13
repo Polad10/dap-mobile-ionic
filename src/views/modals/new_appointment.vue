@@ -26,18 +26,18 @@
       <ion-textarea placeholder="Enter actions..." rows="5"></ion-textarea>
     </ion-item>
   </ion-content>
-      <ion-footer>
-        <ion-grid>
-          <ion-row>
-            <ion-col >
-              <ion-button color="danger" fill="solid" expand="block" @click="handleCancel">Cancel</ion-button>
-            </ion-col>
-            <ion-col>
-              <ion-button color="success" fill="solid" expand="block" @click="handleAddAppointment">Add</ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-    </ion-footer>
+  <ion-footer>
+      <ion-grid>
+        <ion-row>
+          <ion-col >
+            <ion-button color="danger" fill="solid" expand="block" @click="handleCancel">Cancel</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button color="success" fill="solid" expand="block" @click="handleAdd">Add</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+  </ion-footer>
 </template>
 
 <script>
@@ -99,7 +99,7 @@ export default defineComponent({
       this.cancelCallback();
     },
 
-    async handleAddAppointment()
+    async handleAdd()
     {
       this.addAppointmentCallback();
     }
