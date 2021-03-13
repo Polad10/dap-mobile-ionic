@@ -6,11 +6,11 @@
   </ion-header>
   <ion-content class="ion-padding">
     <ion-item>
-        <ion-label>Date</ion-label>
+        <ion-label position="stacked">Date</ion-label>
         <ion-datetime display-format="MMM DD, YYYY" picker-format="DD MMM YYYY" placeholder="Select date..." min="2021-01-01" max="2050-01-01"></ion-datetime>
     </ion-item>
     <ion-item>
-        <ion-label>Time</ion-label>
+        <ion-label position="stacked">Time</ion-label>
         <ion-datetime display-format="HH:mm" placeholder="Select time..."></ion-datetime>
     </ion-item>
     <ion-item>
