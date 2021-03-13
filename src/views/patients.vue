@@ -7,7 +7,7 @@
     </ion-header>
     <ion-content>
       <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
-        <ion-fab-button color="tertiary">
+        <ion-fab-button color="tertiary" @click="openNewPatient">
           <ion-icon :icon="addOutline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -27,9 +27,10 @@
 </template>
 
 <script>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { addOutline } from 'ionicons/icons'
+import { addOutline } from 'ionicons/icons';
+import NewPatient from './modals/new_patient.vue';
 
 export default defineComponent({
   name: 'Patients',
@@ -78,6 +79,29 @@ export default defineComponent({
 
     async setSearchFocus() {
       this.$refs.search.setFocus();
+    },
+
+    async openNewPatient()
+    {
+      const modal = await modalController.create({
+        component: NewPatient,
+        componentProps: {
+          cancelCallback: () => this.closeModal(),
+          addCallback: () => this.addPatient()
+        }
+      });
+
+      return modal.present();
+    },
+
+    async closeModal()
+    {
+      modalController.dismiss();
+    },
+
+    async addPatient()
+    {
+      this.closeModal();
     }
   }
 });
