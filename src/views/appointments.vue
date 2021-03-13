@@ -141,7 +141,7 @@ export default defineComponent({
         component: NewAppointment,
         componentProps: {
           cancelCallback: () => this.closeModal(),
-          addAppointmentCallback: () => this.addAppointment()
+          addCallback: () => this.addAppointment()
         }
       });
 
