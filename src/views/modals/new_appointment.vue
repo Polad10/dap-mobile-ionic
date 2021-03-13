@@ -50,7 +50,7 @@ export default defineComponent({
   name: 'NewAppointment',
   props: {
     cancelCallback: {type: Function, default: null},
-    addAppointmentCallback: {type: Function, default: null}
+    addCallback: {type: Function, default: null}
   },
   data() {
     return {
@@ -101,7 +101,7 @@ export default defineComponent({
 
     async handleAdd()
     {
-      this.addAppointmentCallback();
+      this.addCallback();
     }
   }
 });
