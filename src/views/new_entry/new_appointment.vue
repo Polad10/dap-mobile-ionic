@@ -44,7 +44,7 @@
 import { IonContent, IonHeader, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Patients from '../patients.vue'
-import Treatments from './treatments.vue'
+import Treatments from '../treatments.vue'
 
 export default defineComponent({
   name: 'NewAppointment',

@@ -80,7 +80,7 @@ import {
  } from 'ionicons/icons'
  
 import { defineComponent, ref } from 'vue';
-import NewAppointment from './modals/new_appointment.vue'
+import NewAppointment from './new_entry/new_appointment.vue'
 
 export default defineComponent({
   components: {

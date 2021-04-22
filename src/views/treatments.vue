@@ -28,7 +28,7 @@
 import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { addOutline } from 'ionicons/icons';
-import NewTreatment from './new_treatment.vue';
+import NewTreatment from './new_entry/new_treatment.vue';
 
 export default defineComponent({
   name: 'Treatments',

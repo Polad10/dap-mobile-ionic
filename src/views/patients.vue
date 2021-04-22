@@ -30,7 +30,7 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { addOutline } from 'ionicons/icons';
-import NewPatient from './modals/new_patient.vue';
+import NewPatient from './new_entry/new_patient.vue';
 
 export default defineComponent({
   name: 'Patients',
