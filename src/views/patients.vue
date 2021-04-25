@@ -31,6 +31,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, modalController }
 import { defineComponent } from 'vue';
 import { addOutline } from 'ionicons/icons';
 import NewPatient from './new_entry/new_patient.vue';
+import { test } from '../api/connect.js';
 
 export default defineComponent({
   name: 'Patients',
@@ -40,6 +41,7 @@ export default defineComponent({
   },
   components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
   setup() {
+        console.log($('body'))
     return {
       addOutline
     }
@@ -67,6 +69,7 @@ export default defineComponent({
   methods: {
     async handleSearch(event) {
       const searchName = event.target.value;
+      test()
       // to do
     },
 
