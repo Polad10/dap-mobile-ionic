@@ -41,7 +41,6 @@ export default defineComponent({
   },
   components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
   setup() {
-        console.log($('body'))
     return {
       addOutline
     }
