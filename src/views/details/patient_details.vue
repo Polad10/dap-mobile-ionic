@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-    <div class="ui tab" data-tab="treatments">
+    <!-- <div class="ui tab" data-tab="treatments">
       <ion-list>
         <ion-item detail="true">
           <ion-label>Input</ion-label>
@@ -90,41 +90,36 @@
           <ion-label>Input</ion-label>
         </ion-item>
       </ion-list>
-    </div>
-    <!-- <div class="ui large divided selection tab list" data-tab="treatments">
+    </div> -->
+    <div class="ui large divided selection tab list" data-tab="treatments">
       <div class="item">
-        <div class="right floated content">
-          <div class="ui button">Add</div>
+        <div class="list_icon right floated content">
+          <i class="angle right icon"></i>
         </div>
-        <img class="ui avatar image" src="../../images/bear.jpg" />
         <div class="middle aligned content">
           <div class="header">Snickerdoodle</div>
           An excellent companion
         </div>
       </div>
       <div class="item">
-        <div class="right floated middle aligned content">
-          <i class="cloud icon"></i>
+        <div class="list_icon right floated content">
+          <i class="angle right icon"></i>
         </div>
-        <img class="ui avatar image" src="../../images/bear.jpg" />
         <div class="middle aligned content">
           <div class="header">Poodle</div>
           A poodle, its pretty basic
         </div>
       </div>
       <div class="item">
-        <div class="right floated content">
-          <button class="ui basic icon button">
-            <i class="cloud icon"></i>
-          </button>
+        <div class="list_icon right floated content">
+          <i class="angle right icon"></i>
         </div>
-        <img class="ui avatar image" src="../../images/bear.jpg" />
         <div class="middle aligned content">
           <div class="header">Paulo</div>
           He's also a dog
         </div>
       </div>
-    </div> -->
+    </div>
     <div class="ui tab segment" data-tab="appointments">
       <p>appointments</p>
     </div>
