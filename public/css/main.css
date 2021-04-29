@@ -1,0 +1,75 @@
+.mt-0 {
+  margin-top: 0px !important;
+}
+
+.mr-0 {
+  margin-right: 0px !important;
+}
+
+.mb-0 {
+  margin-bottom: 0px !important;
+}
+
+.p-0 {
+  padding: 0px !important;
+}
+
+.patient_details_container {
+  margin: 5px;
+}
+
+.patient_name {
+  margin-top: 5px !important;
+  margin-bottom: 0px !important;
+}
+
+.patient_occupation {
+  margin-top: 3px !important;
+  font-weight: 100;
+  font-size: 12pt;
+}
+
+.menu_item {
+  text-align: center;
+  display: block !important;
+}
+
+.menu_text {
+  display: block !important;
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabs_segment {
+  padding: 0px !important;
+}
+
+.tabs_segment:first-child {
+  margin-top: 14px !important;
+}
+
+.tabs_list {
+  padding: 10px !important;
+  margin-top: 0px !important;
+}
+
+.tabs_list .header {
+  font-size: 13px;
+}
+
+.tabs_segment_title {
+  background-color: rgb(246, 246, 246);
+  padding: 10px !important;
+}
+
+.tabs_segment_title button {
+  top: 50%;
+  right: 0;
+  transform: translateY(-15%);
+}
+
+.tab ion-list ion-label {
+  font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
