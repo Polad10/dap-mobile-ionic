@@ -5,31 +5,33 @@
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <ion-item>
-        <ion-label position="stacked">Date</ion-label>
-        <ion-datetime display-format="MMM DD, YYYY" picker-format="DD MMM YYYY" placeholder="Select date..." min="2021-01-01" max="2050-01-01"></ion-datetime>
-    </ion-item>
-    <ion-item>
-        <ion-label position="stacked">Time</ion-label>
-        <ion-datetime display-format="HH:mm" placeholder="Select time..."></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Patient</ion-label>
-      <ion-input @ionFocus="openSelectPatient" placeholder="Enter patient name..." inputmode="none" ref="patient"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Treatment</ion-label>
-      <ion-input @ionFocus="openSelectTreatment" placeholder="Enter treatment name..." inputmode="none" ref="treatment"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Actions</ion-label>
-      <ion-textarea placeholder="Enter actions..." rows="5"></ion-textarea>
-    </ion-item>
+    <form>
+      <ion-item ref="date_item">
+          <ion-label position="stacked">Date *</ion-label>
+          <ion-datetime display-format="MMM DD, YYYY" picker-format="DD MMM YYYY" placeholder="Select date..." min="2021-01-01" max="2050-01-01" ref="date"></ion-datetime>
+      </ion-item>
+      <ion-item ref="time_item">
+          <ion-label position="stacked">Time *</ion-label>
+          <ion-datetime display-format="HH:mm" placeholder="Select time..." ref="time"></ion-datetime>
+      </ion-item>
+      <ion-item ref="patient_item">
+        <ion-label position="stacked">Patient *</ion-label>
+        <ion-input @ionFocus="openSelectPatient" :value="patientName" placeholder="Enter patient name..." inputmode="none"></ion-input>
+      </ion-item>
+      <ion-item ref="treatment_item">
+        <ion-label position="stacked">Treatment *</ion-label>
+        <ion-input @ionFocus="openSelectTreatment" :value="treatmentDiagnosis" placeholder="Enter treatment name..." inputmode="none"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Actions</ion-label>
+        <ion-textarea placeholder="Enter actions..." rows="5" ref="actions"></ion-textarea>
+      </ion-item>
+    </form>
   </ion-content>
   <ion-footer>
       <ion-grid>
         <ion-row>
-          <ion-col >
+          <ion-col>
             <ion-button color="danger" fill="solid" expand="block" @click="handleCancel">Cancel</ion-button>
           </ion-col>
           <ion-col>
@@ -55,6 +57,8 @@ export default defineComponent({
   data() {
     return {
       content: 'Content',
+      patient: null,
+      treatment: null
     }
   },
   components: { IonContent, IonHeader, IonTitle, IonToolbar },
@@ -64,7 +68,7 @@ export default defineComponent({
         component: Patients,
         componentProps: {
           title: 'Select Patient',
-          callback: (name) => this.getSelectedPatient(name)
+          callback: (patient) => this.getSelectedPatient(patient)
         }
       });
 
@@ -75,23 +79,23 @@ export default defineComponent({
       const modal = await modalController.create({
         component: Treatments,
         componentProps: {
-          callback: (diagnosis) => this.getSelectedTreatment(diagnosis)
+          callback: (treatment) => this.getSelectedTreatment(treatment)
         }
       });
 
       return modal.present();
     },
 
-    async getSelectedPatient(name) {
+    async getSelectedPatient(patient) {
       modalController.dismiss();
 
-      this.$refs.patient.value = name;
+      this.patient = patient;
     },
 
-    async getSelectedTreatment(diagnosis) {
+    async getSelectedTreatment(treatment) {
       modalController.dismiss();
 
-      this.$refs.treatment.value = diagnosis;
+      this.treatment = treatment;
     },
 
     async handleCancel()
@@ -101,7 +105,56 @@ export default defineComponent({
 
     async handleAdd()
     {
-      this.addCallback();
+      if(this.verifyForm()) {
+        this.addCallback({
+          date: this.$refs.date.value,
+          time: this.$refs.time.value,
+          actions: this.$refs.actions.value,
+          patient_id: this.patient.id,
+          treatment_id: this.treatment.id
+        });
+      }
+    },
+
+    verifyForm() {
+      const valid = this.$refs.date.value && this.$refs.time.value && this.patient?.id && this.treatment?.id;
+
+      this.resetVerify();
+
+      if(!valid) {
+        if(!this.$refs.date.value) {
+          this.$refs.date_item.classList.add('field-invalid');
+        }
+
+        if(!this.$refs.time.value) {
+          this.$refs.time_item.classList.add('field-invalid');
+        }
+
+        if(!this.patient) {
+          this.$refs.patient_item.classList.add('field-invalid');
+        }
+
+        if(!this.treatment) {
+          this.$refs.treatment_item.classList.add('field-invalid');
+        }
+      }
+
+      return valid;
+    },
+    
+    resetVerify() {
+      this.$refs.date_item.classList.remove('field-invalid');
+      this.$refs.time_item.classList.remove('field-invalid');
+      this.$refs.patient_item.classList.remove('field-invalid');
+      this.$refs.treatment_item.classList.remove('field-invalid');
+    }
+  },
+  computed: {
+    patientName: function() {
+      return this.patient === null ? '' : `${this.patient.first_name} ${this.patient.last_name}`;
+    },
+    treatmentDiagnosis: function() {
+      return this.treatment === null ? '' : this.treatment.diagnosis;
     }
   }
 });

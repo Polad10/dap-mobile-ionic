@@ -12,26 +12,26 @@
         </ion-fab-button>
       </ion-fab>
       <ion-list>
-        <ion-item-group v-for="item in [1,2]" :key="item">
+        <ion-item-group v-for="appointment in appointments.slice(0, appointmentIndex)" :key="appointment.date">
           <ion-list-header color="light">
-            <h5>20-10-2021</h5>
+            <h5>{{ appointment.date }}</h5>
           </ion-list-header>
-          <ion-item v-for="i in [1,2,3]" :key="i">
-            <ion-label color="medium" position="fixed">21:21</ion-label>
+          <ion-item v-for="info in appointment.infos" :key="info.id">
+            <ion-label color="medium" position="fixed">{{ info.time }}</ion-label>
             <ion-label class="ion-text-wrap ion-margin-end">
-              <h2>Polad 10</h2>
-              <h3>Diagnosis alkdalkdlaskd adasdmasldmalskdlaskdlaklsjdalksjdlaksjdlkasj</h3>
-              <p>Actions, asda las das als</p>
+              <h2>{{ combine(info.treatment.patient.first_name, info.treatment.patient.last_name) }}</h2>
+              <h3>{{ info.treatment.diagnosis }}</h3>
+              <p>{{ info.actions }}</p>
             </ion-label>
             <ion-fab horizontal="end">
               <ion-fab-button size="small" color="light">
                 <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
               </ion-fab-button>
               <ion-fab-list side="start">
-                <ion-fab-button color="success">
+                <ion-fab-button color="success" @click="processAppointment(info)">
                   <ion-icon :icon="checkmarkOutline"></ion-icon>
                 </ion-fab-button>
-                <ion-fab-button color="danger">
+                <ion-fab-button color="danger" @click="cancelAppointment(info)">
                   <ion-icon :icon="closeOutline"></ion-icon>
                 </ion-fab-button>
               </ion-fab-list>
@@ -41,10 +41,10 @@
       </ion-list>
 
       <ion-infinite-scroll
-        @ionInfinite="loadData($event)" 
+        @ionInfinite="handleScroll($event)" 
         threshold="100px" 
         id="infinite-scroll"
-        :disabled="isDisabled"
+        :disabled="loadDisabled"
       >
         <ion-infinite-scroll-content
           loading-spinner="bubbles"
@@ -55,7 +55,7 @@
   </ion-page>
 </template>
 
-<script lang="ts">
+<script>
 import { 
   IonContent, 
   IonInfiniteScroll, 
@@ -79,8 +79,13 @@ import {
   addOutline
  } from 'ionicons/icons'
  
-import { defineComponent, ref } from 'vue';
-import NewAppointment from './new_entry/new_appointment.vue'
+import { defineComponent } from 'vue';
+import NewAppointment from './new_entry/new_appointment.vue';
+import { appointmentApi } from '../api/appointment.js';
+import { paymentApi } from '../api/payment.js';
+import { helper } from '../helpers/helper.js';
+import { userMessage } from '../helpers/user_message.js';
+import { datetime } from '../helpers/datetime.js';
 
 export default defineComponent({
   components: {
@@ -96,38 +101,19 @@ export default defineComponent({
     IonFabList,
     IonIcon
   },
-  setup() {
-    const isDisabled = ref(false);
-
-    const items = ref([] as number[]);
-    const pushData = () => {
-      const max = items.value.length + 20;
-      const min = max - 20;
-      for (let i = min; i < max; i++) {
-        items.value.push(i);
-      }
-    }
-
-    const loadData = (event: any) => {
-      setTimeout(() => {
-        pushData();
-        console.log('Loaded data');
-        event.target.complete();
-
-        // App logic to determine if all data is loaded
-        // and disable the infinite scroll
-        if (items.value.length == 1000) {
-          event.target.disabled = true;
-        }
-      }, 500);
-    }
-
-    pushData();
-
+  data() {
     return {
-      isDisabled,
-      loadData,
-      items,
+      appointments: [],
+      appointmentIndex: 0,
+      loadSize: 5,
+      loadDisabled: false
+    }
+  },
+  mounted() {
+    this.refresh();
+  },
+  setup() {
+    return {
       ellipsisHorizontalOutline,
       checkmarkOutline,
       closeOutline,
@@ -141,7 +127,7 @@ export default defineComponent({
         component: NewAppointment,
         componentProps: {
           cancelCallback: () => this.closeModal(),
-          addCallback: () => this.addAppointment()
+          addCallback: (appointment) => this.addAppointment(appointment)
         }
       });
 
@@ -153,10 +139,86 @@ export default defineComponent({
       modalController.dismiss();
     },
 
-    async addAppointment()
+    async addAppointment(appointment)
     {
-      // to do
+      const dt = datetime.combine(appointment.date, appointment.time);
+      const success = await appointmentApi.create(dt, appointment.actions, appointment.treatment_id);
+
+      if(success) {
+        userMessage.toast('New appointment created!', 'success');
+
+        this.refresh();
+      }
+
       this.closeModal();
+    },
+
+    async handleScroll(event) {
+      setTimeout(() => {
+        this.loadNextAppointments();
+        event.target.complete();
+      }, 100);
+    },
+
+    async refresh() {
+      appointmentApi.getUpcoming().then((result) => {
+        this.appointments = helper.groupBy(result, 'date');
+        this.loadNextAppointments();
+      });
+    },
+
+    async loadNextAppointments() {
+      this.appointmentIndex += this.loadSize;
+
+      if(this.appointmentIndex >= this.appointments.length - 1) {
+        this.loadDisabled = true;
+      }
+    },
+
+    async processAppointment(appointment) {
+      userMessage.promptPayment(async amount => {
+        let paymentSuccess = false;
+        let appointmentSuccess = false;
+
+        if(amount) {
+          paymentSuccess = await paymentApi.create(amount, appointment.datetime, appointment.treatment.id);
+        }
+        else {
+          paymentSuccess = true;
+        }
+
+        if(paymentSuccess) {
+          appointmentSuccess = await appointmentApi.done(appointment.id);
+
+          if(appointmentSuccess) {
+            this.removeAppointment(appointment);
+            userMessage.toast('The appointment is finished!', 'success');
+          }
+        }
+      });
+    },
+
+    async cancelAppointment(appointment) {
+      appointmentApi.cancel(appointment.id).then(success => {
+        if(success) {
+          this.removeAppointment(appointment);
+          userMessage.toast('The appointment is cancelled!', 'danger');
+        }
+      });
+    },
+
+    removeAppointment(appointment) {
+      const index = this.appointments.findIndex(a => a.date === appointment.date);
+      const appointmentsOnDate = this.appointments[index];
+      appointmentsOnDate.infos = appointmentsOnDate.infos.filter(a => a.id !== appointment.id);
+      
+      if(appointmentsOnDate.infos.length === 0) {
+        this.appointments.splice(index, 1);
+      }
+    },
+
+    combine(firstPart, secondPart) {
+      return helper.combine(firstPart, secondPart);
     }
   }
 });

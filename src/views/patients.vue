@@ -13,12 +13,12 @@
       </ion-fab>
       <ion-searchbar ref="search" type="search" placeholder="Enter patient name..." @ionInput="handleSearch" clear-icon="undefined"></ion-searchbar>
       <ion-list>
-        <ion-item detail="true" button v-for="p in patients" :key="p" @click="handlePatientSelect(p.firstName + ' ' + p.lastName)">
+        <ion-item detail="true" button v-for="p in patients" :key="p" @click="handlePatientSelect(p)">
           <ion-avatar slot="start">
             <img src="../images/icon.png">
           </ion-avatar>
           <ion-label>
-            <h2>{{p.firstName}} {{p.lastName}}</h2>
+            <h2>{{p.first_name}} {{p.last_name}}</h2>
           </ion-label>
         </ion-item>
       </ion-list>
@@ -31,7 +31,6 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, modalController }
 import { defineComponent } from 'vue';
 import { addOutline } from 'ionicons/icons';
 import NewPatient from './new_entry/new_patient.vue';
-import { test } from '../api/connect.js';
 
 export default defineComponent({
   name: 'Patients',
@@ -48,12 +47,11 @@ export default defineComponent({
   data() {
     return {
       patients: [
-        {firstName: 'Polad', lastName: 'Mammadov'},
-        {firstName: 'Faxri', lastName: 'Imanov'},
-        {firstName: 'Fuad', lastName: 'Imanov'},
-        {firstName: 'Amelia', lastName: 'Kezia'},
-        {firstName: 'Emin', lastName: 'Mammadov'},
-        {firstName: 'Farid', lastName: 'Mammadov'},
+        {id: 1, first_name: 'dummy', last_name: 'dummy', city: null, extra_info: null, dob: null, phone_nr: null},
+        {id: 2, first_name: 'ad', last_name: 'dummy', city: null, extra_info: null, dob: null, phone_nr: null},
+        {id: 3, first_name: 'hahaha', last_name: 'dummy', city: null, extra_info: null, dob: null, phone_nr: null},
+        {id: 4, first_name: '123456789', last_name: 'dummy', city: null, extra_info: null, dob: null, phone_nr: null},
+        {id: 5, first_name: 'qwe', last_name: 'dummy', city: null, extra_info: null, dob: null, phone_nr: null}
       ]
     }
   },
@@ -68,7 +66,6 @@ export default defineComponent({
   methods: {
     async handleSearch(event) {
       const searchName = event.target.value;
-      test()
       // to do
     },
 
