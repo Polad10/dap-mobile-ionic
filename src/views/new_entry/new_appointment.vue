@@ -13,10 +13,6 @@
         <ion-label position="stacked">Time *</ion-label>
         <ion-datetime display-format="HH:mm" placeholder="Select time..." ref="time"></ion-datetime>
     </ion-item>
-    <ion-item ref="patient_item">
-      <ion-label position="stacked">Patient *</ion-label>
-      <ion-input @ionFocus="openSelectPatient" :value="patientName" placeholder="Enter patient name..." inputmode="none"></ion-input>
-    </ion-item>
     <ion-item ref="treatment_item">
       <ion-label position="stacked">Treatment *</ion-label>
       <ion-input @ionFocus="openSelectTreatment" :value="treatmentDiagnosis" placeholder="Enter treatment name..." inputmode="none"></ion-input>
@@ -43,7 +39,6 @@
 <script>
 import { IonContent, IonHeader, IonTitle, IonToolbar, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import Patients from '../patients.vue'
 import Treatments from '../treatments.vue'
 
 export default defineComponent({
@@ -55,24 +50,11 @@ export default defineComponent({
   data() {
     return {
       content: 'Content',
-      patient: null,
       treatment: null
     }
   },
   components: { IonContent, IonHeader, IonTitle, IonToolbar },
   methods: {
-    async openSelectPatient() {
-      const modal = await modalController.create({
-        component: Patients,
-        componentProps: {
-          title: 'Select Patient',
-          callback: (patient) => this.getSelectedPatient(patient)
-        }
-      });
-
-      return modal.present();
-    },
-    
     async openSelectTreatment() {
       const modal = await modalController.create({
         component: Treatments,
@@ -82,12 +64,6 @@ export default defineComponent({
       });
 
       return modal.present();
-    },
-
-    async getSelectedPatient(patient) {
-      modalController.dismiss();
-
-      this.patient = patient;
     },
 
     async getSelectedTreatment(treatment) {
@@ -108,14 +84,13 @@ export default defineComponent({
           date: this.$refs.date.value,
           time: this.$refs.time.value,
           actions: this.$refs.actions.value,
-          patient_id: this.patient.id,
           treatment_id: this.treatment.id
         });
       }
     },
 
     verifyForm() {
-      const valid = this.$refs.date.value && this.$refs.time.value && this.patient?.id && this.treatment?.id;
+      const valid = this.$refs.date.value && this.$refs.time.value && this.treatment?.id;
 
       this.resetVerify();
 
@@ -126,10 +101,6 @@ export default defineComponent({
 
         if(!this.$refs.time.value) {
           this.$refs.time_item.classList.add('field-invalid');
-        }
-
-        if(!this.patient) {
-          this.$refs.patient_item.classList.add('field-invalid');
         }
 
         if(!this.treatment) {
@@ -143,14 +114,10 @@ export default defineComponent({
     resetVerify() {
       this.$refs.date_item.classList.remove('field-invalid');
       this.$refs.time_item.classList.remove('field-invalid');
-      this.$refs.patient_item.classList.remove('field-invalid');
       this.$refs.treatment_item.classList.remove('field-invalid');
     }
   },
   computed: {
-    patientName: function() {
-      return this.patient === null ? '' : `${this.patient.first_name} ${this.patient.last_name}`;
-    },
     treatmentDiagnosis: function() {
       return this.treatment === null ? '' : this.treatment.diagnosis;
     }
