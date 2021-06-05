@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="tertiary" @click="openNewPatient">
           <ion-icon :icon="addOutline"></ion-icon>
         </ion-fab-button>
@@ -69,10 +69,10 @@ export default defineComponent({
       // to do
     },
 
-    async handlePatientSelect(name) {
+    async handlePatientSelect(patient) {
       if(this.callback)
       {
-        this.callback(name);
+        this.callback(patient);
       }
     },
 

@@ -5,28 +5,26 @@
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
-    <form>
-      <ion-item ref="date_item">
-          <ion-label position="stacked">Date *</ion-label>
-          <ion-datetime display-format="MMM DD, YYYY" picker-format="DD MMM YYYY" placeholder="Select date..." min="2021-01-01" max="2050-01-01" ref="date"></ion-datetime>
-      </ion-item>
-      <ion-item ref="time_item">
-          <ion-label position="stacked">Time *</ion-label>
-          <ion-datetime display-format="HH:mm" placeholder="Select time..." ref="time"></ion-datetime>
-      </ion-item>
-      <ion-item ref="patient_item">
-        <ion-label position="stacked">Patient *</ion-label>
-        <ion-input @ionFocus="openSelectPatient" :value="patientName" placeholder="Enter patient name..." inputmode="none"></ion-input>
-      </ion-item>
-      <ion-item ref="treatment_item">
-        <ion-label position="stacked">Treatment *</ion-label>
-        <ion-input @ionFocus="openSelectTreatment" :value="treatmentDiagnosis" placeholder="Enter treatment name..." inputmode="none"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Actions</ion-label>
-        <ion-textarea placeholder="Enter actions..." rows="5" ref="actions"></ion-textarea>
-      </ion-item>
-    </form>
+    <ion-item ref="date_item">
+        <ion-label position="stacked">Date *</ion-label>
+        <ion-datetime display-format="MMM DD, YYYY" picker-format="DD MMM YYYY" placeholder="Select date..." min="2021-01-01" max="2050-01-01" ref="date"></ion-datetime>
+    </ion-item>
+    <ion-item ref="time_item">
+        <ion-label position="stacked">Time *</ion-label>
+        <ion-datetime display-format="HH:mm" placeholder="Select time..." ref="time"></ion-datetime>
+    </ion-item>
+    <ion-item ref="patient_item">
+      <ion-label position="stacked">Patient *</ion-label>
+      <ion-input @ionFocus="openSelectPatient" :value="patientName" placeholder="Enter patient name..." inputmode="none"></ion-input>
+    </ion-item>
+    <ion-item ref="treatment_item">
+      <ion-label position="stacked">Treatment *</ion-label>
+      <ion-input @ionFocus="openSelectTreatment" :value="treatmentDiagnosis" placeholder="Enter treatment name..." inputmode="none"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Actions</ion-label>
+      <ion-textarea placeholder="Enter actions..." rows="5" ref="actions"></ion-textarea>
+    </ion-item>
   </ion-content>
   <ion-footer>
       <ion-grid>

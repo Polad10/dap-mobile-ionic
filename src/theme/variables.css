@@ -243,4 +243,8 @@ http://ionicframework.com/docs/theming/ */
     --full-highlight-height: calc(var(--highlight-height) * var(--show-full-highlight));
     --inset-highlight-height: calc(var(--highlight-height) * var(--show-inset-highlight))
   }
+
+  ion-searchbar.searchbar-has-value button.searchbar-clear-button {
+    display: block;
+  }
 }

@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 function combine(date, time) {
     const datePart = date.split('T')[0];
     const timePart = time.split('T')[1];
@@ -5,8 +7,13 @@ function combine(date, time) {
     return `${datePart}T${timePart}`;
 }
 
+function toISODate(date) {
+    return DateTime.fromISO(date).toISODate();
+}
+
 const datetime = {
-    combine: combine
+    combine: combine,
+    toISODate: toISODate
 }
 
 export { datetime }

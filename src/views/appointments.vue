@@ -16,27 +16,20 @@
           <ion-list-header color="light">
             <h5>{{ appointment.date }}</h5>
           </ion-list-header>
-          <ion-item v-for="info in appointment.infos" :key="info.id">
+          <ion-item-sliding v-for="info in appointment.infos" :key="info.id">
+            <ion-item-options>
+              <ion-item-option color="success" @click="processAppointment(info)">Done</ion-item-option>
+              <ion-item-option color="danger" @click="cancelAppointment(info)">Cancel</ion-item-option>
+            </ion-item-options>
+            <ion-item>
             <ion-label color="medium" position="fixed">{{ info.time }}</ion-label>
             <ion-label class="ion-text-wrap ion-margin-end">
               <h2>{{ combine(info.treatment.patient.first_name, info.treatment.patient.last_name) }}</h2>
               <h3>{{ info.treatment.diagnosis }}</h3>
               <p>{{ info.actions }}</p>
             </ion-label>
-            <ion-fab horizontal="end">
-              <ion-fab-button size="small" color="light">
-                <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
-              </ion-fab-button>
-              <ion-fab-list side="start">
-                <ion-fab-button color="success" @click="processAppointment(info)">
-                  <ion-icon :icon="checkmarkOutline"></ion-icon>
-                </ion-fab-button>
-                <ion-fab-button color="danger" @click="cancelAppointment(info)">
-                  <ion-icon :icon="closeOutline"></ion-icon>
-                </ion-fab-button>
-              </ion-fab-list>
-            </ion-fab>
           </ion-item>
+          </ion-item-sliding>
         </ion-item-group>
       </ion-list>
 
@@ -66,7 +59,6 @@ import {
   IonPage,
   IonFab,
   IonFabButton,
-  IonFabList,
   IonIcon,
   modalController
  } from '@ionic/vue';
@@ -98,7 +90,6 @@ export default defineComponent({
     IonPage,
     IonFab,
     IonFabButton,
-    IonFabList,
     IonIcon
   },
   data() {
@@ -163,6 +154,8 @@ export default defineComponent({
     async refresh() {
       appointmentApi.getUpcoming().then((result) => {
         this.appointments = helper.groupBy(result, 'date');
+
+        this.appointmentIndex = 0;
         this.loadNextAppointments();
       });
     },
