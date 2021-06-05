@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Appointments</ion-title>
+        <ion-title>{{title}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -80,6 +80,10 @@ import { userMessage } from '../helpers/user_message.js';
 import { datetime } from '../helpers/datetime.js';
 
 export default defineComponent({
+  name: 'Appointments',
+  props: {
+    title: {type: String, default: 'Appointments'}
+  },
   components: {
     IonContent, 
     IonInfiniteScroll, 

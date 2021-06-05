@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Select Treatment</ion-title>
+        <ion-title>{{title}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -49,6 +49,7 @@ import { userMessage } from '../helpers/user_message.js';
 export default defineComponent({
   name: 'Treatments',
   props: {
+    title: {type: String, default: 'Treatments'},
     callback: {type: Function, default: null}
   },
   data() {
