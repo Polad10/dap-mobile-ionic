@@ -97,19 +97,19 @@ export default defineComponent({
 
             this.resetVerify();
 
-        if(!valid) {
-            if(!this.$refs.date.value) {
-            this.$refs.date_item.classList.add('field-invalid');
-            }
+            if(!valid) {
+                if(!this.$refs.date.value) {
+                this.$refs.date_item.classList.add('field-invalid');
+                }
 
-            if(!this.$refs.diagnosis.value) {
-            this.$refs.diagnosis_item.classList.add('field-invalid');
-            }
+                if(!this.$refs.diagnosis.value) {
+                this.$refs.diagnosis_item.classList.add('field-invalid');
+                }
 
-            if(!this.patient) {
-            this.$refs.patient_item.classList.add('field-invalid');
+                if(!this.patient) {
+                this.$refs.patient_item.classList.add('field-invalid');
+                }
             }
-        }
 
             return valid;
         },
