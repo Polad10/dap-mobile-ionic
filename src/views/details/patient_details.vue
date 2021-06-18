@@ -75,22 +75,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="ui tab" data-tab="treatments">
-      <ion-list>
-        <ion-item detail="true">
-          <ion-label>Input</ion-label>
-        </ion-item>
-        <ion-item detail="true">
-          <ion-label>Input</ion-label>
-        </ion-item>
-        <ion-item detail="true">
-          <ion-label>Input</ion-label>
-        </ion-item>
-        <ion-item detail="true">
-          <ion-label>Input</ion-label>
-        </ion-item>
-      </ion-list>
-    </div> -->
     <div
       id="treatment_list"
       class="ui large divided selection tab list"
@@ -208,7 +192,6 @@ export default defineComponent({
   mounted() {
     setTimeout(() => {
       window.$(".menu .item").tab();
-      // window.$(".overlay.fullscreen.modal").modal("show");
       window
         .$(".overlay.fullscreen.modal")
         .modal("attach events", "#treatment_list .item", "show");
