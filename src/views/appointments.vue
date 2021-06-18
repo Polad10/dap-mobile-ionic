@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-fab vertical="top" horizontal="end" slot="fixed" edge>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="tertiary" @click="openNewAppointment">
            <ion-icon :icon="addOutline"></ion-icon>
         </ion-fab-button>
