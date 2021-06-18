@@ -237,4 +237,14 @@ http://ionicframework.com/docs/theming/ */
   ion-label {
     --ion-margin: 50px;
   }
+
+  ion-item.field-invalid {
+    --highlight-background: var(--highlight-color-invalid);
+    --full-highlight-height: calc(var(--highlight-height) * var(--show-full-highlight));
+    --inset-highlight-height: calc(var(--highlight-height) * var(--show-inset-highlight))
+  }
+
+  ion-searchbar.searchbar-has-value button.searchbar-clear-button {
+    display: block;
+  }
 }
