@@ -13,7 +13,7 @@
       </ion-fab>
       <ion-searchbar ref="search" type="search" placeholder="Enter patient name..." @ionInput="handleSearch" clear-icon="undefined"></ion-searchbar>
       <ion-list>
-        <ion-item detail="true" button v-for="p in patients.slice(0, patientIndex)" :key="p.id" @click="handlePatientSelect(p)">
+        <ion-item :href="'/tabs/patients/' + p.id" button v-for="p in patients.slice(0, patientIndex)" :key="p.id" @click="handlePatientSelect(p)">
           <ion-avatar slot="start">
             <img src="../images/icon.png">
           </ion-avatar>
