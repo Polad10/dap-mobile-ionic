@@ -13,7 +13,7 @@
       </ion-fab>
       <ion-searchbar ref="search" type="search" placeholder="Enter patient name..." @ionInput="handleSearch" clear-icon="undefined"></ion-searchbar>
       <ion-list>
-        <ion-item :href="'/tabs/patients/' + p.id" button v-for="p in patients.slice(0, patientIndex)" :key="p.id" @click="handlePatientSelect(p)">
+        <ion-item button v-for="p in patients.slice(0, patientIndex)" :key="p.id" @click="handlePatientSelect(p)">
           <ion-avatar slot="start">
             <img src="../images/icon.png">
           </ion-avatar>
@@ -128,9 +128,11 @@ export default defineComponent({
     },
 
     async handlePatientSelect(patient) {
-      if(this.callback)
-      {
+      if(this.callback) {
         this.callback(patient);
+      }
+      else {
+        window.location.href = `/tabs/patients/${patient.id}`;
       }
     },
 
