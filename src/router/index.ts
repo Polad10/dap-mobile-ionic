@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/test",
-    component: () => import("@/views/details/patient_details.vue"),
+    component: () => import("@/views/details/patient.vue"),
   },
   {
     path: "/tabs/",
@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "patients/:id",
-        component: () => import("@/views/details/patient_details.vue")
+        component: () => import("@/views/details/patient.vue")
       }
     ],
   },
