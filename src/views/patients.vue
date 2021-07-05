@@ -43,6 +43,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, modalController }
 import { defineComponent } from 'vue';
 import { addOutline } from 'ionicons/icons';
 import NewPatient from './new_entry/new_patient.vue';
+import Patient from './details/patient.vue';
 import { patientApi } from '../api/patient.js';
 import { helper } from '../helpers/helper.js';
 import { searcher } from '../helpers/searcher.js';
@@ -132,7 +133,14 @@ export default defineComponent({
         this.callback(patient);
       }
       else {
-        window.location.href = `/tabs/patients/${patient.id}`;
+        const modal = await modalController.create({
+          component: Patient,
+          componentProps: {
+            patient: patient
+          }
+        });
+
+        return modal.present();
       }
     },
 

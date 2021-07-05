@@ -26,10 +26,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "patients",
         component: () => import("@/views/patients.vue"),
-      },
-      {
-        path: "patients/:id",
-        component: () => import("@/views/details/patient.vue")
       }
     ],
   },
