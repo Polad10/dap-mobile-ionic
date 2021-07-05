@@ -1,9 +1,5 @@
 <template>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="tertiary" @click="openNewTreatment">
-            <ion-icon :icon="addOutline"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
+	<add-button @add-new="openNewTreatment"></add-button>
     <ion-list>
         <ion-item detail="true" button v-for="t in treatments.slice(0, treatmentIndex)" :key="t.id" @click="$emit('treatment-selected', t)">
             <ion-label>
@@ -23,20 +19,16 @@ import { modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { treatmentApi } from '../../api/treatment.js';
 import { datetime } from '../../helpers/datetime.js';
-import { addOutline } from 'ionicons/icons';
 import NewTreatment from '../new_entry/new_treatment.vue';
 import { userMessage } from '../../helpers/user_message.js';
+import AddButton from './add_button.vue';
 
 export default defineComponent({
     name: 'TreatmentList',
     props: {
         patient: {type: String, default: null}
     },
-    setup() {
-        return {
-            addOutline
-        }
-    },
+	components: { AddButton },
     data() {
         return {
             treatments: [],

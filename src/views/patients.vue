@@ -6,11 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="tertiary" @click="openNewPatient">
-          <ion-icon :icon="addOutline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+      <add-button @add-new="openNewPatient"></add-button>
       <ion-searchbar ref="search" type="search" placeholder="Enter patient name..." @ionInput="handleSearch" clear-icon="undefined"></ion-searchbar>
       <ion-list>
         <ion-item button v-for="p in patients.slice(0, patientIndex)" :key="p.id" @click="handlePatientSelect(p)">
@@ -48,6 +44,7 @@ import { patientApi } from '../api/patient.js';
 import { helper } from '../helpers/helper.js';
 import { searcher } from '../helpers/searcher.js';
 import { userMessage } from '../helpers/user_message.js';
+import AddButton from './components/add_button.vue';
 
 export default defineComponent({
   name: 'Patients',
@@ -55,7 +52,7 @@ export default defineComponent({
     title: {type: String, default: 'Patients'},
     callback: {type: Function, default: null}
   },
-  components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  components: {  IonHeader, IonToolbar, IonTitle, IonContent, IonPage, AddButton },
   setup() {
     return {
       addOutline

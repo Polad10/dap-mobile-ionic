@@ -6,11 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="tertiary" @click="openNewAppointment">
-           <ion-icon :icon="addOutline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+      <add-button @add-new="openNewAppointment"></add-button>
       <ion-list>
         <ion-item-group v-for="appointment in appointments.slice(0, appointmentIndex)" :key="appointment.date">
           <ion-list-header color="light">
@@ -57,9 +53,6 @@ import {
   IonLabel,
   IonList,
   IonPage,
-  IonFab,
-  IonFabButton,
-  IonIcon,
   modalController
  } from '@ionic/vue';
 
@@ -67,8 +60,7 @@ import {
   ellipsisHorizontalOutline,
   checkmarkOutline,
   closeOutline,
-  checkmarkCircleOutline,
-  addOutline
+  checkmarkCircleOutline
  } from 'ionicons/icons'
  
 import { defineComponent } from 'vue';
@@ -78,6 +70,7 @@ import { paymentApi } from '../api/payment.js';
 import { helper } from '../helpers/helper.js';
 import { userMessage } from '../helpers/user_message.js';
 import { datetime } from '../helpers/datetime.js';
+import AddButton from './components/add_button.vue';
 
 export default defineComponent({
   name: 'Appointments',
@@ -92,9 +85,7 @@ export default defineComponent({
     IonLabel,
     IonList,
     IonPage,
-    IonFab,
-    IonFabButton,
-    IonIcon
+    AddButton
   },
   data() {
     return {
@@ -112,8 +103,7 @@ export default defineComponent({
       ellipsisHorizontalOutline,
       checkmarkOutline,
       closeOutline,
-      checkmarkCircleOutline,
-      addOutline
+      checkmarkCircleOutline
     }
   },
   methods: {
