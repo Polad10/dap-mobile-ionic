@@ -6,11 +6,6 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button color="tertiary" @click="openNewTreatment">
-          <ion-icon :icon="addOutline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
       <ion-searchbar @ionFocus="openPatientSelect" @ionClear="clearPatient" :value="patientName" placeholder="Select patient..." inputmode="none" :search-icon="personOutline" ></ion-searchbar>
       <treatment-list :patient="patient" @treatment-selected="handleTreatmentSelect"></treatment-list>
     </ion-content>
@@ -18,12 +13,10 @@
 </template>
 
 <script>
-import { IonPage, IonContent, IonHeader, IonTitle, IonToolbar, modalController } from '@ionic/vue';
+import { IonPage, IonContent, IonHeader, IonTitle, modalController } from '@ionic/vue';
 import { defineComponent } from 'vue';
-import { addOutline, personOutline } from 'ionicons/icons';
-import NewTreatment from './new_entry/new_treatment.vue';
+import { personOutline } from 'ionicons/icons';
 import Patients from './patients.vue';
-import { userMessage } from '../helpers/user_message.js';
 import TreatmentList from './components/treatment_list.vue';
 
 export default defineComponent({
@@ -40,7 +33,6 @@ export default defineComponent({
   components: { IonPage, IonContent, IonHeader, IonTitle, TreatmentList },
   setup() {
     return {
-      addOutline,
       personOutline
     }
   },
@@ -75,25 +67,6 @@ export default defineComponent({
 
     async closeModal() {
       modalController.dismiss();
-    },
-
-    async openNewTreatment() {
-      const modal = await modalController.create({
-        component: NewTreatment,
-        componentProps: {
-          cancelCallback: () => this.closeModal(),
-          addCallback: () => this.handleTreatmentAdded()
-        }
-      });
-
-      return modal.present();
-    },
-
-    async handleTreatmentAdded() {
-      userMessage.toast('New treatment created!', 'success');
-
-      this.refresh();
-      this.closeModal();
     },
 
     async handleTreatmentSelect(diagnosis) {
