@@ -13,8 +13,17 @@ function create(amount, datetime, treatmentId) {
     .catch(ex => false);
 }
 
+function getForTreatment(treatmentId) {
+    return axios.get(baseUrl, {
+        params: {
+            treatment_id: treatmentId
+        }
+    }).then(result => result.data)
+}
+
 const paymentApi = {
-    create: create
+    create: create,
+    getForTreatment: getForTreatment
 }
 
 export { paymentApi }

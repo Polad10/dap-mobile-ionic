@@ -69,8 +69,8 @@ export default defineComponent({
       modalController.dismiss();
     },
 
-    async handleTreatmentSelect(diagnosis) {
-      this.callback(diagnosis);
+    async handleTreatmentSelect(treatment) {
+      this.callback(treatment);
     },
   },
 

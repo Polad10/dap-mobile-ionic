@@ -26,7 +26,7 @@ import AddButton from './add_button.vue';
 export default defineComponent({
     name: 'TreatmentList',
     props: {
-        patient: {type: String, default: null}
+        patient: {type: Object, default: null}
     },
 	components: { AddButton },
     data() {
