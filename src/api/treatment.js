@@ -3,12 +3,13 @@ import status from 'javascript-http-status';
 
 const baseUrl = 'https://dapapi.herokuapp.com/api/treatments';
 
-function create(startDate, diagnosis, extraInfo, patientId) {
+function create(startDate, diagnosis, extraInfo, patientId, products) {
     return axios.post(baseUrl, {
         start_date: startDate,
         diagnosis: diagnosis,
         extra_info: extraInfo,
-        patient_id: patientId
+        patient_id: patientId,
+        products: products
     })
     .then(response => response.status === status.http200Ok)
     .catch(ex => false);

@@ -130,3 +130,24 @@ ion-item {
   padding: 15px !important;
   font-size: 16px !important;
 }
+
+.centered-modal {
+  --max-height: 50%;
+  --max-width: 85%;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.32);
+}
+
+ion-item.field-invalid {
+  --highlight-background: var(--highlight-color-invalid);
+  --full-highlight-height: calc(var(--highlight-height) * var(--show-full-highlight));
+  --inset-highlight-height: calc(var(--highlight-height) * var(--show-inset-highlight))
+}
+
+ion-label {
+  --ion-margin: 50px;
+}
+
+ion-searchbar.searchbar-has-value button.searchbar-clear-button {
+  display: block;
+}
