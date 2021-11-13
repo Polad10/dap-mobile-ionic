@@ -21,21 +21,7 @@
       <ion-label position="stacked">Extra Info</ion-label>
       <ion-textarea placeholder="Enter extra info..." rows="5" ref="extra"></ion-textarea>
     </ion-item>
-    <ion-list>
-      <ion-list-header color="light">
-        <h5>Products ( Total: <ion-text color="primary">{{ totalPrice }} ₼</ion-text> )</h5>
-      </ion-list-header>
-      <ion-item-sliding ref="product_slide" v-for="(product, index) in products" :key="product.id">
-        <ion-item-options>
-          <ion-item-option color="danger" @click="removeProduct(index)">Remove</ion-item-option>
-        </ion-item-options>
-        <ion-item lines="full">
-          <ion-label slot="start">{{product.name}}</ion-label>
-          <ion-label slot="start">{{product.price}} ₼</ion-label>
-          <ion-label slot="end">x {{product.quantity}}</ion-label>
-        </ion-item>
-      </ion-item-sliding>
-    </ion-list>
+    <product-list :products="products" @remove-product="removeProduct(index)"></product-list>
   </ion-content>
   <ion-footer>
     <ion-grid>
@@ -58,7 +44,7 @@ import { defineComponent } from "vue";
 import Patients from "../patients.vue";
 import NewProduct from '../new_entry/new_product.vue'
 import { treatmentApi } from "../../api/treatment.js";
-import { productApi } from "@/api/product";
+import ProductList from '../components/product_list.vue'
 
 export default defineComponent({
   name: "NewTreatment",
@@ -72,7 +58,7 @@ export default defineComponent({
       products: []
     };
   },
-  components: { IonContent, IonHeader, IonTitle, IonToolbar },
+  components: { IonContent, IonHeader, IonTitle, IonToolbar, ProductList },
   methods: {
     async openSelectPatient() {
       const modal = await modalController.create({
@@ -99,6 +85,10 @@ export default defineComponent({
       return modal.present()
     },
 
+    async removeProduct(index) {
+        this.products.splice(index, 1)
+    },
+
     async closeModal() {
       modalController.dismiss()
     },
@@ -107,12 +97,6 @@ export default defineComponent({
       this.products.push(product)
 
       this.closeModal()
-    },
-
-    async removeProduct(index) {
-      this.products.splice(index, 1)
-
-      this.$refs.product_slide.closeOpened()
     },
 
     async getSelectedPatient(patient) {
@@ -171,13 +155,6 @@ export default defineComponent({
   computed: {
     patientName: function() {
       return this.patient === null ? "" : `${this.patient.first_name} ${this.patient.last_name}`;
-    },
-    totalPrice: function() {
-      let totalPrice = 0
-
-      this.products.forEach(p => totalPrice += p.price * p.quantity)
-
-      return totalPrice
     }
   },
 });
