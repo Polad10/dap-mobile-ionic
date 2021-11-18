@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { IonContent, IonHeader, IonTitle, IonToolbar, modalController } from '@ionic/vue'
+import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/vue'
 import { defineComponent } from 'vue'
 import { Product } from '../../models/product.js'
 

@@ -25,7 +25,7 @@
   </ion-content>
   <ion-footer>
     <ion-grid>
-      <ion-button color="tertiary" fill="outline" expand="block" strong="true" @click="handleAddProduct">Add Product</ion-button>
+      <add-product-btn :addCallback="addNewProduct"></add-product-btn>
       <ion-row>
         <ion-col>
           <ion-button color="danger" fill="solid" expand="block" @click="handleCancel">Cancel</ion-button>
@@ -42,9 +42,9 @@
 import { IonContent, IonHeader, IonTitle, IonToolbar, modalController } from "@ionic/vue";
 import { defineComponent } from "vue";
 import Patients from "../patients.vue";
-import NewProduct from '../new_entry/new_product.vue'
 import { treatmentApi } from "../../api/treatment.js";
 import ProductList from '../components/product_list.vue'
+import AddProductBtn from '../components/add_product_button.vue'
 
 export default defineComponent({
   name: "NewTreatment",
@@ -58,7 +58,7 @@ export default defineComponent({
       products: []
     };
   },
-  components: { IonContent, IonHeader, IonTitle, IonToolbar, ProductList },
+  components: { IonContent, IonHeader, IonTitle, IonToolbar, ProductList, AddProductBtn },
   methods: {
     async openSelectPatient() {
       const modal = await modalController.create({
@@ -70,19 +70,6 @@ export default defineComponent({
       });
 
       return modal.present();
-    },
-
-    async handleAddProduct() {
-      const modal = await modalController.create({
-        component: NewProduct,
-        cssClass: 'centered-modal',
-        componentProps: {
-          cancelCallback: () => this.closeModal(),
-          addCallback: (product) => this.addNewProduct(product)
-        }
-      })
-
-      return modal.present()
     },
 
     async removeProduct(index) {
