@@ -2,12 +2,12 @@
   <ion-list>
     <ion-list-header color="light">
       <h5>
-        Products ( Total: <ion-text color="primary">{{ totalPrice }} ₼</ion-text> )
+        Products <ion-text v-if="showTotalPrice">( Total: <ion-text color="primary">{{ totalPrice }} ₼ )</ion-text></ion-text>
       </h5>
     </ion-list-header>
     <ion-item-sliding ref="product_slide" v-for="(product, index) in products" :key="product.id">
       <ion-item-options>
-        <ion-item-option color="danger" @click="handleRemoveProduct(index)">Remove</ion-item-option>
+        <ion-item-option color="danger" @click="handleRemoveProduct(product, index)">Remove</ion-item-option>
       </ion-item-options>
       <ion-item lines="full">
         <ion-label slot="start">{{ product.name }}</ion-label>
@@ -28,10 +28,10 @@ export default defineComponent({
         showTotalPrice: {type: Boolean, default: false}
     },
     methods: {
-        async handleRemoveProduct(index) {
+        async handleRemoveProduct(product, index) {
             this.$refs.product_slide.closeOpened()
 
-            this.$emit('remove-product', index)
+            this.$emit('remove-product', product, index)
         }
     },
     computed: {

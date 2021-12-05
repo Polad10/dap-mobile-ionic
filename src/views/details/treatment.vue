@@ -8,10 +8,11 @@
     <div class="ui container">
       <div class="ui vertical segment">
         <h3 class="ui header">
-          {{ patientName }} (<span class="ui green text">{{ treatment.status }}</span>)
+          {{ patientName }} (<span class="ui green text">{{ treatment.status }}</span
+          >)
         </h3>
         <p>
-            {{ treatment.diagnosis }}
+          {{ treatment.diagnosis }}
         </p>
         <div id="treatment_overview" class="ui two column grid mt-20">
           <div class="column">
@@ -60,69 +61,101 @@
           </div>
         </div>
       </div>
+      <product-list :products="products" @remove-product="removeProduct"></product-list>
     </div>
   </ion-content>
+  <ion-footer>
+    <add-product-btn :addCallback="addNewProduct"></add-product-btn>
+  </ion-footer>
 </template>
 
 <script>
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/vue'
-import { defineComponent } from 'vue'
-import { DateTime } from 'luxon'
-import { productApi } from '../../api/product.js'
-import { paymentApi } from '../../api/payment.js'
+import { IonContent, IonHeader, IonTitle, IonToolbar } from "@ionic/vue";
+import { defineComponent } from "vue";
+import { DateTime } from "luxon";
+import { productApi } from "../../api/product.js";
+import { paymentApi } from "../../api/payment.js";
+import ProductList from "../components/product_list.vue";
+import AddProductBtn from "../components/add_product_button.vue";
+import { userMessage } from '../../helpers/user_message.js';
 
 export default defineComponent({
-    name: 'Treatment',
-    props: {
-        treatment: {type: Object, default: null}
+  name: "Treatment",
+  props: {
+    treatment: { type: Object, default: null },
+  },
+  components: { IonContent, IonHeader, IonTitle, IonToolbar, ProductList, AddProductBtn },
+  data() {
+    return {
+      products: [],
+      payments: [],
+    };
+  },
+  mounted() {
+    this.refresh();
+  },
+  methods: {
+    async refresh() {
+      this.products = await productApi.getForTreatment(this.treatment.id);
+      this.payments = await paymentApi.getForTreatment(this.treatment.id);
     },
-    components: { IonContent, IonHeader, IonTitle, IonToolbar },
-    data() {
-      return {
-        products: [],
-        payments: []
+
+    formatDateTime(dateTime) {
+      if (!dateTime) {
+        return "-";
+      }
+      return DateTime.fromISO(dateTime).toLocaleString(DateTime.DATE_MED);
+    },
+    
+    async addNewProduct(product) {
+      const id = await productApi.create(product.name, product.quantity, product.price, this.treatment.id)
+
+      if(id) {
+        product.id = id
+        this.products.push(product);
+        userMessage.toast('New product added!', 'success');
+      }
+      else {
+        userMessage.toast('Something went wrong!', 'danger');
       }
     },
-    mounted() {
-      this.refresh()
-    },
-    methods: {
-      async refresh() {
-        this.products = await productApi.getForTreatment(this.treatment.id)
-        this.payments = await paymentApi.getForTreatment(this.treatment.id)
-      },
 
-      formatDateTime(dateTime) {
-        if(!dateTime) {
-          return '-'
-        }
-        return DateTime.fromISO(dateTime).toLocaleString(DateTime.DATE_MED)
+    async removeProduct(product, index) {
+      const success = await productApi.remove(product.id)
+
+      if(success) {
+        this.products.splice(index, 1);
+        userMessage.toast('Product removed!', 'success');
+      }
+      else {
+        userMessage.toast('Something went wrong!', 'danger');
       }
     },
-    computed: {
-      patientName: function() {
-        return `${this.treatment.patient.first_name} ${this.treatment.patient.last_name}`
-      },
+  },
+  computed: {
+    patientName: function() {
+      return `${this.treatment.patient.first_name} ${this.treatment.patient.last_name}`;
+    },
 
-      totalPrice: function() {
-        let totalPrice = 0;
+    totalPrice: function() {
+      let totalPrice = 0;
 
-        this.products.forEach(p => {
-          totalPrice += p.quantity * p.price
-        })
+      this.products.forEach((p) => {
+        totalPrice += p.quantity * p.price;
+      });
 
-        return totalPrice
-      },
+      return totalPrice;
+    },
 
-      totalPaid: function() {
-        let totalPaid = 0;
+    totalPaid: function() {
+      let totalPaid = 0;
 
-        this.payments.forEach(p => {
-          totalPaid += p.amount
-        })
+      this.payments.forEach((p) => {
+        totalPaid += p.amount;
+      });
 
-        return totalPaid
-      }
-    }
-})
+      return totalPaid;
+    },
+  },
+});
 </script>

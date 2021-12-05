@@ -21,7 +21,7 @@
       <ion-label position="stacked">Extra Info</ion-label>
       <ion-textarea placeholder="Enter extra info..." rows="5" ref="extra"></ion-textarea>
     </ion-item>
-    <product-list :products="products" @remove-product="removeProduct(index)"></product-list>
+    <product-list :products="products" @remove-product="removeProduct(index)" :showTotalPrice="true"></product-list>
   </ion-content>
   <ion-footer>
     <ion-grid>
@@ -82,8 +82,6 @@ export default defineComponent({
 
     async addNewProduct(product) {
       this.products.push(product)
-
-      this.closeModal()
     },
 
     async getSelectedPatient(patient) {
@@ -104,7 +102,7 @@ export default defineComponent({
         const patientId = this.patient.id;
 
         const success = await treatmentApi.create(date, diagnosis, extraInfo, patientId, this.products);
-        console.log(success)
+        
         if (success) {
           this.addCallback();
         }

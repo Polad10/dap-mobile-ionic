@@ -19,7 +19,10 @@ export default defineComponent({
         cssClass: "centered-modal",
         componentProps: {
           cancelCallback: this.closeModal,
-          addCallback: this.addCallback
+          addCallback: (product) => {
+            this.addCallback(product)
+            this.closeModal()
+          }
         },
       });
       
